@@ -1,9 +1,10 @@
 <template>
-  <div class="home">
-    <h2>home</h2>
-  </div>
+  <div class="home"></div>
+  <homeNavBar></homeNavBar>
 </template>
 
-<script setup></script>
+<script setup>
+import homeNavBar from "./cpns/home-nav-bar.vue";
+</script>
 
 <style lang="less" scoped></style>
