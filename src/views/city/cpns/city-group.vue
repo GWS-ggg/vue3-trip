@@ -25,11 +25,15 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+// 动态索引
 const indexList = computed(() => {
   let list = props.groupData.cities.map((item) => item.group);
   list.unshift("#");
   return list;
 });
+
+// 城市点击
 </script>
 
 <style lang="less" scoped>
