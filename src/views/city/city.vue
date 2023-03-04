@@ -16,8 +16,8 @@
       </van-tabs>
     </div>
     <div class="content">
-      <template v-for="(item, index) in currentGroup">
-        <div>{{ item }}</div>
+      <template v-for="(value, key, index) in allCities">
+        <cityGroup v-show="tabActive === key" :group-data="value"></cityGroup>
       </template>
     </div>
   </div>
@@ -28,6 +28,7 @@ import { useRouter } from "vue-router";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import useCityStore from "@/store/modules/city";
+import cityGroup from "./cpns/city-group.vue";
 
 const router = useRouter();
 
@@ -65,6 +66,10 @@ const currentGroup = computed(() => allCities.value[tabActive.value]);
   //   margin-top: 98px;
   // }
 
+  .top {
+    position: relative;
+    z-index: 9;
+  }
   //布局滚动
   .content {
     height: calc(100vh - 98px);
