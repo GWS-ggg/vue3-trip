@@ -18,7 +18,7 @@
           <span class="tip">入住</span>
           <span class="time">{{ startDay }}</span>
         </div>
-        <div class="stay">共一晚</div>
+        <div class="stay">共{{ diffDay }}晚</div>
         <div class="end">
           <div class="date">
             <span class="tip">离店</span>
@@ -95,11 +95,12 @@ endDate.setDate(endDate.getDate() + 1);
 
 const startDay = ref(formatMonthDay(startDate));
 const endDay = ref(formatMonthDay(endDate));
-
+const diffDay = ref(1);
 const calendarShow = ref(false);
 const onConfirm = (date) => {
   startDay.value = formatMonthDay(date[0]);
   endDay.value = formatMonthDay(date[1]);
+  diffDay.value = getDiffDays(date[0], date[1]);
   calendarShow.value = false;
 };
 
