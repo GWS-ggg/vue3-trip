@@ -5,13 +5,13 @@
       <div class="list">
         <!-- <template v-for="(item,index) in groupData.hotCities" > -->
         <template v-for="(item, index) in groupData.hotCities">
-          <div class="city">{{ item.cityName }}</div>
+          <div class="city" @click="clickCity(item)">{{ item.cityName }}</div>
         </template>
       </div>
       <template v-for="(group, index) in groupData.cities" :key="index">
         <van-index-anchor :index="group.group" />
         <template v-for="(city, indey) in group.cities" :key="indey">
-          <van-cell :title="city.cityName" />
+          <van-cell :title="city.cityName" @click="clickCity(city)" />
         </template>
       </template>
     </van-index-bar>
@@ -19,6 +19,11 @@
 </template>
 
 <script setup>
+import useCityStore from "@/store/modules/city";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
   groupData: {
     type: Object,
@@ -34,6 +39,12 @@ const indexList = computed(() => {
 });
 
 // 城市点击
+const cityStore = useCityStore();
+const { currentCity } = storeToRefs(cityStore);
+const clickCity = (city) => {
+  currentCity.value = city;
+  router.back();
+};
 </script>
 
 <style lang="less" scoped>

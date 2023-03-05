@@ -2,7 +2,7 @@
   <div class="search-box">
     <!-- 位置信息 -->
     <div class="location bottom-gray-line">
-      <div class="city" @click="cityClick">广州</div>
+      <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
       <div class="position" @click="positionClick">
         <span class="text">我的位置</span>
         <img src="@/assets/img/home/icon_location.png" alt="" />
@@ -65,10 +65,13 @@ import { useRouter } from "vue-router";
 import { formatMonthDay, getDiffDays } from "@/utils/format_date";
 import useHomeStore from "@/store/modules/home";
 import { storeToRefs } from "pinia";
+import useCityStore from "@/store/modules/city";
 
 const router = useRouter();
 
 // 位置信息
+const cityStore = useCityStore();
+const { currentCity } = storeToRefs(cityStore);
 const cityClick = () => {
   router.push("/city");
 };
