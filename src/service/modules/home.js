@@ -11,3 +11,11 @@ export function getCategoriesData() {
     url: "/home/categories",
   });
 }
+export function getHouseListData(currentPage) {
+  return gwsRequest.get({
+    url: "home/houselist",
+    params: {
+      page: currentPage,
+    },
+  });
+}

@@ -44,6 +44,7 @@
     <!-- 关键字 -->
     <div class="section keyword bottom-gray-line">关键字/位置/民宿名</div>
 
+    <!-- 热门数据 -->
     <div class="hot-suggests section">
       <template v-for="(item, index) in hotSuggests" :key="index">
         <div
@@ -57,6 +58,11 @@
         </div>
       </template>
     </div>
+
+    <!-- 搜索框 -->
+    <div class="section search-btn">
+      <div class="btn" @click="searchBtnClick">开始搜索</div>
+    </div>
   </div>
 </template>
 
@@ -66,6 +72,7 @@ import { formatMonthDay, getDiffDays } from "@/utils/format_date";
 import useHomeStore from "@/store/modules/home";
 import { storeToRefs } from "pinia";
 import useCityStore from "@/store/modules/city";
+import useMainStore from "@/store/modules/main";
 
 const router = useRouter();
 
@@ -92,18 +99,19 @@ const positionClick = () => {
 };
 
 // 日期选择
-const startDate = new Date();
-const endDate = new Date();
-endDate.setDate(endDate.getDate() + 1);
+const mainStore = useMainStore();
+const { startDate, endDate } = storeToRefs(mainStore);
 
-const startDay = ref(formatMonthDay(startDate));
-const endDay = ref(formatMonthDay(endDate));
-const diffDay = ref(1);
+const startDay = computed(() => formatMonthDay(startDate.value));
+const endDay = computed(() => formatMonthDay(endDate.value));
+const diffDay = ref(getDiffDays(startDate.value, endDate.value));
+
 const calendarShow = ref(false);
 const onConfirm = (date) => {
-  startDay.value = formatMonthDay(date[0]);
-  endDay.value = formatMonthDay(date[1]);
+  startDate.value = date[0];
+  mainStore.endDate = date[1];
   diffDay.value = getDiffDays(date[0], date[1]);
+
   calendarShow.value = false;
 };
 
@@ -111,6 +119,18 @@ const onConfirm = (date) => {
 const homeStore = useHomeStore();
 homeStore.fetchHotSuggestData();
 const { hotSuggests } = storeToRefs(homeStore);
+
+// 搜索按钮
+const searchBtnClick = () => {
+  router.push({
+    path: "/search",
+    query: {
+      startDate,
+      endDate,
+      currentCity: currentCity.value.cityName,
+    },
+  });
+};
 </script>
 
 <style lang="less" scoped>
@@ -215,6 +235,20 @@ const { hotSuggests } = storeToRefs(homeStore);
     border-radius: 14px;
     font-size: 12px;
     line-height: 10px;
+  }
+}
+
+.search-btn {
+  .btn {
+    width: 342px;
+    height: 38px;
+    max-height: 50px;
+    font-weight: 500;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>

@@ -50,12 +50,22 @@
 import { getAssetURL } from "@/utils/load_assets.js";
 import { ref } from "vue";
 import router from "@/router";
+import { useRoute } from "vue-router";
 
 const currentIndex = ref(0);
 const itmeClick = (index, item) => {
   currentIndex.value = index;
   router.push(item.path);
 };
+
+const route = useRoute();
+watch(route, (newRoute) => {
+  const index = tabbarData.findIndex((item) => {
+    return item.path === newRoute.path;
+  });
+  if (index === -1) return;
+  currentIndex.value = index;
+});
 
 const tabbarData = [
   {
