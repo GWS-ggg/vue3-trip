@@ -5,11 +5,18 @@
     <img src="@/assets/img/home/banner.webp" alt="" />
   </div>
   <homeSearchBox></homeSearchBox>
+  <homeCategories></homeCategories>
 </template>
 
 <script setup>
 import homeNavBar from "./cpns/home-nav-bar.vue";
 import homeSearchBox from "./cpns/home-search-box.vue";
+import homeCategories from "./cpns/home-categories.vue";
+import useHomeStore from "@/store/modules/home";
+
+const homeStore = useHomeStore();
+homeStore.fetchHotSuggestData();
+homeStore.fetchCategoriesData();
 </script>
 
 <style lang="less" scoped>

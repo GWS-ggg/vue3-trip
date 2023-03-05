@@ -207,6 +207,7 @@ const { hotSuggests } = storeToRefs(homeStore);
 
 .hot-suggests {
   margin: 10px 0;
+  height: auto;
 
   .suggest {
     padding: 4px 8px;

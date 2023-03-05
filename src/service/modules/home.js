@@ -5,3 +5,9 @@ export function getHotSuggestsData() {
     url: "/home/hotSuggests",
   });
 }
+
+export function getCategoriesData() {
+  return gwsRequest.get({
+    url: "/home/categories",
+  });
+}
